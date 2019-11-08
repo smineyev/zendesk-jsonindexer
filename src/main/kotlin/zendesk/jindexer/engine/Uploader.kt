@@ -17,6 +17,10 @@ private const val EXTERNAL_ID_FIELD = "external_id"
 class Uploader
     (@Autowired val docStorage: DocStorage) {
 
+    init {
+        initialUpload()
+    }
+
     fun initialUpload() = runBlocking {
         val parser: Parser = Parser.default()
         this::class.java.classLoader.getResourceAsStream("users.json").use {
