@@ -5,5 +5,5 @@ import zendesk.jindexer.engine.Doc
 
 interface DocStorage {
     fun search(term: String) : Flow<Doc>;
-    fun save(docs: Flow<Doc>);
+    suspend fun save(docs: Flow<Doc>);
 }

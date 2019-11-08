@@ -4,7 +4,7 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.flow
 
-fun tokenizeFlow(contentFlow: Flow<Char>, vararg delimeters: Char) : Flow<String> = flow {
+fun tokenizeFlow(contentFlow: Flow<Char>, delimeters: Set<Char>) : Flow<String> = flow {
     val strBuilder = StringBuilder()
     contentFlow.collect {
         if (it in delimeters) {

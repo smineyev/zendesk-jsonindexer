@@ -11,7 +11,7 @@ class UtilsTest {
     @Test
     fun tokenizeFlow() = runBlocking {
         val contentFlow = "everyone loves    Kotlin".asIterable().asFlow()
-        val terms = tokenizeFlow(contentFlow, ' ').toSet()
+        val terms = tokenizeFlow(contentFlow, setOf(' ')).toSet()
         Assertions.assertEquals(setOf("everyone", "loves", "Kotlin"), terms)
     }
 
