@@ -31,12 +31,13 @@ class JsonIndexerCLI(
     }
 
     override fun run(vararg args: String?) {
-        if (isJUnitTest()) return
-        val shell = ShellFactory.createConsoleShell("cmd>>",
-                "Welcome to Json Indexer CLI\n"
-                        + "To list all available commands enter ?list. "
-                        + "To get detailed info on a command enter ?help command-name.",
-                this)
-        shell.commandLoop()
+        if ("cli" in args) {
+            val shell = ShellFactory.createConsoleShell("cmd>>",
+                    "Welcome to Json Indexer CLI\n"
+                            + "To list all available commands enter ?list. "
+                            + "To get detailed info on a command enter ?help command-name.",
+                    this)
+            shell.commandLoop()
+        }
     }
 }

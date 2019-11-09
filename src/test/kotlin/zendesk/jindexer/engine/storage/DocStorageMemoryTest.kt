@@ -7,16 +7,25 @@ import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.toList
 import kotlinx.coroutines.flow.toSet
 import kotlinx.coroutines.runBlocking
+import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.Assertions.*
+import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
+import org.springframework.boot.test.context.TestComponent
 import zendesk.jindexer.engine.Doc
 import zendesk.jindexer.engine.DocType
+import zendesk.jindexer.engine.storage.impl.DocStorageMemory
 
-@SpringBootTest
-class DocStorageMemoryTest
-    (@Autowired val docStorage: DocStorage) {
+class DocStorageMemoryTest {
+    val docStorageConfigurer = DocStorageConfigurer()
+    lateinit var docStorage: DocStorage
+
+    @BeforeEach
+    fun beforeEach() {
+        docStorage = docStorageConfigurer.docStorage()
+    }
 
     @Test
     fun `search something does not exist`() = runBlocking<Unit> {
