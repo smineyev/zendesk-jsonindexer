@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.CommandLineRunner
 import org.springframework.stereotype.Component
 import zendesk.jindexer.engine.storage.DocStorage
+import zendesk.jindexer.isJUnitTest
 
 @Component
 class JsonIndexerCLI(
@@ -30,6 +31,7 @@ class JsonIndexerCLI(
     }
 
     override fun run(vararg args: String?) {
+        if (isJUnitTest()) return
         val shell = ShellFactory.createConsoleShell("cmd>>",
                 "Welcome to Json Indexer CLI\n"
                         + "To list all available commands enter ?list. "

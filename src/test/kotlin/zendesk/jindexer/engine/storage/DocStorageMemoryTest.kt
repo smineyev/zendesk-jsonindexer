@@ -20,10 +20,13 @@ class DocStorageMemoryTest
     (@Autowired val docStorage: DocStorage) {
 
     @Test
-    fun `search on empty storage`() = runBlocking<Unit> {
-        var docs = docStorage.search("a").toList()
+    fun `search something does not exist`() = runBlocking<Unit> {
+        val docs = docStorage.search("SSSSSSSSSSSSSS").toList()
         assertTrue(docs.isEmpty());
-        docs = docStorage.search("").toList()
+    }
+
+    fun `search for empty term`() = runBlocking<Unit> {
+        val docs = docStorage.search("").toList()
         assertTrue(docs.isEmpty());
     }
 
@@ -53,7 +56,7 @@ class DocStorageMemoryTest
 
     private suspend fun createDocs(): Triple<Doc, Doc, Doc> {
         val userDoc = Doc("1", DocType.USER,
-                        JsonObject(mapOf("name" to "sergey",
+                        JsonObject(mapOf("name" to "SeRGey",
                                         "occupation" to "software")))
         val orgDoc = Doc("2", DocType.ORGANIZATION,
                         JsonObject(mapOf("name" to "mvw",

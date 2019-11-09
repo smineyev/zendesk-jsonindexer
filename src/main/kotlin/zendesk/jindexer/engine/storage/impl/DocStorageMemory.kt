@@ -13,13 +13,15 @@ class DocStorageMemory
     private val fieldMap = HashMap<String, HashMap<String, MutableList<Doc>>>()
 
     override fun search(field: String, term: String): Flow<Doc> {
+        val termInLower = term.toLowerCase()
         val termMap = fieldMap[field]
-        return termMap?.get(term)?.asFlow() ?: flow {}
+        return termMap?.get(termInLower)?.asFlow() ?: flow {}
     }
 
     override fun search(term: String): Flow<Doc> = flow {
+        val termInLower = term.toLowerCase()
         for (termMap in fieldMap.values) {
-            termMap[term]?.forEach { emit(it) }
+            termMap[termInLower]?.forEach { emit(it) }
         }
 //        val res = fieldMap.values
 //                    .map { it[term]?.asFlow() ?: flow {} }
@@ -38,9 +40,9 @@ class DocStorageMemory
                 val charFlow: Flow<Char>
                 if (field.value is JsonArray<*>) {
                     charFlow = (field.value as JsonArray<String>).asFlow()
-                            .flatMapMerge { (it + " ").asIterable().asFlow() }
+                            .flatMapMerge { (it.toLowerCase() + " ").asIterable().asFlow() }
                 } else {
-                    charFlow = field.value.toString().asIterable().asFlow()
+                    charFlow = field.value.toString().toLowerCase().asIterable().asFlow()
                 }
                 tokenize(charFlow).collect {
                     termMap.getOrPut(it, { mutableListOf<Doc>() }).add(doc)
