@@ -11,7 +11,7 @@ class DocStorageConfigurer {
 
     private val delimiters = setOf(' ', '\t', '\n', ',', '.', ';', ':')
 
-    fun tokenizeFlowWithDelimeters(charFlow: Flow<Char>) : Flow<String> {
+    fun tokenizeFlowWithDelimeters(charFlow: Flow<Char>?) : Flow<String> {
         return tokenizeFlow(charFlow, delimiters)
     }
 
