@@ -9,13 +9,13 @@ import org.springframework.boot.test.web.client.getForEntity
 import org.springframework.http.HttpStatus
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
-class JsonIndexerApplicationTest
+class SearchControllerTest
 	(@Autowired val restTemplate: TestRestTemplate) {
-
 
 	@Test
 	fun `test web controller`() {
-		val entity = restTemplate.getForEntity<String>("/search?term=software")
+		val entity = restTemplate.getForEntity<String>("/search?term=incident")
+		println (entity.body)
 		assertEquals(entity.statusCode, HttpStatus.OK)
 	}
 

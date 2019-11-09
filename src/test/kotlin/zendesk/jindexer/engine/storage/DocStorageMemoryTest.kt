@@ -1,5 +1,7 @@
 package zendesk.jindexer.engine.storage
 
+import com.beust.klaxon.JsonArray
+import com.beust.klaxon.JsonObject
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.toList
@@ -42,17 +44,25 @@ class DocStorageMemoryTest
         assertEquals(setOf(userDoc.id, orgDoc.id), docIds)
     }
 
+    @Test
+    fun `save and search on array field`() = runBlocking<Unit> {
+        val (userDoc, orgDoc, ticketDoc) = createDocs()
+        val docIds = docStorage.search("tag","top").map {it.id}.toSet()
+        assertEquals(setOf(orgDoc.id), docIds)
+    }
+
     private suspend fun createDocs(): Triple<Doc, Doc, Doc> {
         val userDoc = Doc("1", DocType.USER,
-                mapOf("name" to "sergey",
-                        "occupation" to "software"))
+                        JsonObject(mapOf("name" to "sergey",
+                                        "occupation" to "software")))
         val orgDoc = Doc("2", DocType.ORGANIZATION,
-                mapOf("name" to "mvw",
-                        "occupation" to "software"))
+                        JsonObject(mapOf("name" to "mvw",
+                                        "occupation" to "software",
+                                        "tag" to JsonArray("top", "small"))))
         val ticketDoc = Doc("3", DocType.TICKET,
-                mapOf("desc" to "bug in production env",
-                        "severity" to "high",
-                        "industry" to "software"))
+                        JsonObject(mapOf("desc" to "bug in production env",
+                                        "severity" to "high",
+                                        "industry" to "software")))
         val docFlow = flowOf(userDoc, orgDoc, ticketDoc)
         docStorage.save(docFlow)
         return Triple(userDoc, orgDoc, ticketDoc)

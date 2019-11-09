@@ -51,19 +51,7 @@ class Uploader
 
     private fun convertToDoc(jsonDoc: JsonObject, docType: DocType) : Doc {
         val externalId = jsonDoc[EXTERNAL_ID_FIELD] as String
-        val fieldMap = HashMap<String, String>()
-        jsonDoc.forEach {
-            if (it.value is JsonObject) {
-                error("Unsupported json format")
-            }
-            if (it.value is JsonArray<*>) {
-                fieldMap[it.key] = (it.value as List<String>).joinToString(separator = ", ")
-            } else {
-                fieldMap[it.key] = it.value.toString()
-            }
-        }
-
-        return Doc(externalId, docType,  fieldMap)
+        return Doc(externalId, docType,  jsonDoc)
     }
 
 }
