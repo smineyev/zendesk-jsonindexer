@@ -1,21 +1,16 @@
 package zendesk.jindexer.cli
 
-import com.budhash.cliche.ShellFactory
 import com.budhash.cliche.Command
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.flow.*
+import com.budhash.cliche.ShellFactory
 import kotlinx.coroutines.reactor.asFlux
 import org.springframework.beans.factory.annotation.Autowired
-import org.springframework.context.annotation.Configuration
-import zendesk.jindexer.engine.Doc
-import zendesk.jindexer.engine.Uploader
+import org.springframework.boot.CommandLineRunner
+import org.springframework.stereotype.Component
 import zendesk.jindexer.engine.storage.DocStorage
-import zendesk.jindexer.engine.storage.DocStorageConfigurer
 
-@Configuration
-class JsonIndexerCLI {
-    private val docStorage = DocStorageConfigurer().docStorage()
-    private val uploader = Uploader(docStorage)
+@Component
+class JsonIndexerCLI(
+        @Autowired val docStorage: DocStorage) : CommandLineRunner {
 
     @Command (description="search documents that contain given term")
     fun search(term: String): String {
@@ -33,13 +28,13 @@ class JsonIndexerCLI {
     fun fields(): List<String> {
         return listOf()
     }
-}
 
-fun main(args: Array<String>) {
-    ShellFactory.createConsoleShell("cmd>>",
-            "Welcome to Json Indexer CLI\n"
-                    + "To list all available commands enter ?list. "
-                    + "To get detailed info on a command enter ?help command-name",
-                    JsonIndexerCLI())
-            .commandLoop()
+    override fun run(vararg args: String?) {
+        val shell = ShellFactory.createConsoleShell("cmd>>",
+                "Welcome to Json Indexer CLI\n"
+                        + "To list all available commands enter ?list. "
+                        + "To get detailed info on a command enter ?help command-name.",
+                this)
+        shell.commandLoop()
+    }
 }

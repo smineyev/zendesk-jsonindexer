@@ -7,13 +7,13 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.runBlocking
 import org.springframework.beans.factory.annotation.Autowired
-import org.springframework.context.annotation.Configuration
+import org.springframework.stereotype.Component
 import zendesk.jindexer.engine.storage.DocStorage
 import java.io.InputStream
 
 private const val EXTERNAL_ID_FIELD = "external_id"
 
-@Configuration
+@Component
 class Uploader
     (@Autowired val docStorage: DocStorage) {
 
