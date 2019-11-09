@@ -13,8 +13,15 @@ class SearchControllerTest
 	(@Autowired val restTemplate: TestRestTemplate) {
 
 	@Test
-	fun `test web controller`() {
+	fun `test search on all fields`() {
 		val entity = restTemplate.getForEntity<String>("/search?term=incident")
+		println (entity.body)
+		assertEquals(entity.statusCode, HttpStatus.OK)
+	}
+
+	@Test
+	fun `test search on single field`() {
+		val entity = restTemplate.getForEntity<String>("/search?term=Ohio&field=tags")
 		println (entity.body)
 		assertEquals(entity.statusCode, HttpStatus.OK)
 	}
