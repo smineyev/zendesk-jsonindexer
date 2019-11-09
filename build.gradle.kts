@@ -5,7 +5,14 @@ plugins {
 	id("io.spring.dependency-management") version "1.0.8.RELEASE"
 	kotlin("jvm") version "1.3.50"
 	kotlin("plugin.spring") version "1.3.50"
+	application
 }
+
+application {
+	mainClassName = "zendesk.jindexer.JsonIndexerApplicationKt"
+}
+
+
 
 group = "zendesk"
 version = "0.0.1-SNAPSHOT"
