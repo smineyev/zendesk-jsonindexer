@@ -27,7 +27,17 @@ class JsonIndexerCLI(
 
     @Command (description="search documents by given type(p1) that contain term(p3) in given field(p2)")
     fun search(docTypeStr: String, field: String, term: String): String {
-        val docType = DocType.valueOf(docTypeStr.toUpperCase())
+        val docType: DocType
+        try {
+            docType = DocType.valueOf(docTypeStr.toUpperCase())
+        } catch (e: IllegalArgumentException) {
+            println("Unknown document type: "+docTypeStr)
+            println("Supported document types: "
+                    + DocType.values()
+                        .map { it.name }
+                        .reduce{res, elem -> res+" "+elem})
+            return ""
+        }
         val resBuilder = StringBuilder()
         docStorage.search(docType, field, if (term != "''") term else "")
                 .asFlux().subscribe {
