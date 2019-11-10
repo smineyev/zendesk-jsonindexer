@@ -10,7 +10,6 @@ import org.springframework.boot.CommandLineRunner
 import org.springframework.stereotype.Component
 import zendesk.jindexer.engine.DocType
 import zendesk.jindexer.engine.storage.DocStorage
-import zendesk.jindexer.isJUnitTest
 
 @Component
 class JsonIndexerCLI(

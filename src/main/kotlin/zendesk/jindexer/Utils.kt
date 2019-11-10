@@ -26,13 +26,3 @@ fun tokenizeFlow(contentFlow: Flow<Char>?, delimeters: Set<Char>) : Flow<String>
         emit(EMPTY_TERM)
     }
 }
-
-fun isJUnitTest(): Boolean {
-    val stackTrace = Thread.currentThread().stackTrace
-    for (element in stackTrace) {
-        if (element.getClassName().startsWith("org.junit.")) {
-            return true
-        }
-    }
-    return false
-}
