@@ -21,10 +21,14 @@ import zendesk.jindexer.engine.storage.impl.DocStorageMemory
 class DocStorageMemoryTest {
     val docStorageConfigurer = DocStorageConfigurer()
     lateinit var docStorage: DocStorage
+    lateinit var userDoc: Doc
+    lateinit var orgDoc: Doc
+    lateinit var ticketDoc: Doc
 
     @BeforeEach
-    fun beforeEach() {
+    fun beforeEach() = runBlocking {
         docStorage = docStorageConfigurer.docStorage()
+        createDocs()
     }
 
     @Test
@@ -35,21 +39,18 @@ class DocStorageMemoryTest {
 
     @Test
     fun `search for empty term`() = runBlocking<Unit> {
-        val (userDoc, orgDoc, ticketDoc) = createDocs()
         val docIds = docStorage.search("").toList().map {it.id}.toSet()
         assertEquals(setOf(userDoc.id), docIds)
     }
 
     @Test
     fun `save and search on all fields`() = runBlocking<Unit> {
-        val (userDoc, orgDoc, ticketDoc) = createDocs()
         var docIds = docStorage.search("software").map {it.id}.toSet()
         assertEquals(setOf(userDoc.id, orgDoc.id, ticketDoc.id), docIds)
     }
 
     @Test
     fun `save and search on single field`() = runBlocking<Unit> {
-        val (userDoc, orgDoc, ticketDoc) = createDocs()
         val docIds = docStorage.search("occupation","software")
                 .map {it.id}.toSet()
         assertEquals(setOf(userDoc.id, orgDoc.id), docIds)
@@ -57,7 +58,6 @@ class DocStorageMemoryTest {
 
     @Test
     fun `save and search for single document type`() = runBlocking {
-        val (userDoc, orgDoc, ticketDoc) = createDocs()
         val docIds = docStorage.search(DocType.ORGANIZATION,"occupation","software")
                 .map {it.id}.toSet()
         assertEquals(setOf(orgDoc.id), docIds)
@@ -65,27 +65,33 @@ class DocStorageMemoryTest {
 
     @Test
     fun `save and search on array field`() = runBlocking<Unit> {
-        val (userDoc, orgDoc, ticketDoc) = createDocs()
         val docIds = docStorage.search("tag","top").map {it.id}.toSet()
         assertEquals(setOf(orgDoc.id), docIds)
     }
 
-    private suspend fun createDocs(): Triple<Doc, Doc, Doc> {
-        val userDoc = Doc("1", DocType.USER,
+    @Test
+    fun `retrieval of meta information`() = runBlocking {
+        val meta = docStorage.getMeta()
+        assertEquals(3, meta.typeFieldMap.size)
+        assertEquals(userDoc.json.keys, meta.typeFieldMap.get(DocType.USER))
+    }
+
+    private suspend fun createDocs() {
+        userDoc = Doc("1", DocType.USER,
                         JsonObject(mapOf("name" to "SeRGey",
                                         "occupation" to "software",
                                         "empty-field" to "")))
-        val orgDoc = Doc("2", DocType.ORGANIZATION,
+        orgDoc = Doc("2", DocType.ORGANIZATION,
                         JsonObject(mapOf("name" to "mvw",
                                         "occupation" to "software",
                                         "tag" to JsonArray("top", "small"))))
-        val ticketDoc = Doc("3", DocType.TICKET,
+        ticketDoc = Doc("3", DocType.TICKET,
                         JsonObject(mapOf("desc" to "bug in production env",
                                         "severity" to "high",
                                         "industry" to "software")))
         val docFlow = flowOf(userDoc, orgDoc, ticketDoc)
         docStorage.save(docFlow)
-        return Triple(userDoc, orgDoc, ticketDoc)
+//        return Triple(userDoc, orgDoc, ticketDoc)
     }
 
 }

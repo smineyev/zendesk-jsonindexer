@@ -5,12 +5,16 @@ import com.beust.klaxon.JsonObject
 import kotlinx.coroutines.flow.*
 import zendesk.jindexer.engine.Doc
 import zendesk.jindexer.engine.DocType
+import zendesk.jindexer.engine.Meta
 import zendesk.jindexer.engine.storage.DocStorage
+import java.util.*
+import kotlin.collections.HashMap
 
 class DocStorageMemory
     (val tokenize: (Flow<Char>?) -> Flow<String>)
         : DocStorage {
 
+    private val meta = Meta()
     private val fieldMap = HashMap<String, HashMap<String, MutableList<Doc>>>()
 
     override fun search(docType: DocType?, field: String, term: String): Flow<Doc> {
@@ -51,11 +55,14 @@ class DocStorageMemory
 
     override suspend fun save(docs: Flow<Doc>)  {
         docs.collect { doc: Doc ->
+            val fieldSet = meta.typeFieldMap.getOrPut(doc.type, { TreeSet<String>() })
             for (field in doc.json.entries) {
-                val termMap = fieldMap.getOrPut(field.key, { HashMap<String, MutableList<Doc>>() })
                 if (field.value is JsonObject) {
                     error("Unsupported document format")
                 }
+                val termMap = fieldMap.getOrPut(field.key, { HashMap<String, MutableList<Doc>>() })
+                fieldSet.add(field.key)
+
                 val charFlow: Flow<Char>?
                 if (field.value is JsonArray<*>) {
                     charFlow = (field.value as JsonArray<String>).asFlow()
@@ -72,6 +79,10 @@ class DocStorageMemory
                 }
             }
         }
+    }
+
+    override fun getMeta(): Meta {
+        return meta.copy()
     }
 
 }

@@ -1,5 +1,7 @@
 package zendesk.jindexer.cli
 
+import com.beust.klaxon.JsonArray
+import com.beust.klaxon.JsonObject
 import com.budhash.cliche.Command
 import com.budhash.cliche.ShellFactory
 import kotlinx.coroutines.reactor.asFlux
@@ -47,9 +49,14 @@ class JsonIndexerCLI(
         return resBuilder.toString()
     }
 
-    @Command
-    fun meta(): List<String> {
-        return listOf()
+    @Command(description="retrieve meta information (doc types -> fields)")
+    fun meta(): String {
+        val meta = docStorage.getMeta()
+        val jsonObj = JsonObject()
+        for ((docType, fieldSet) in meta.typeFieldMap) {
+            jsonObj.set(docType.name, JsonArray(fieldSet.toList()))
+        }
+        return jsonObj.toJsonString(prettyPrint = true)
     }
 
     @Command

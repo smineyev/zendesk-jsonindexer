@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestParam
 import org.springframework.web.bind.annotation.RestController
 import zendesk.jindexer.engine.Doc
 import zendesk.jindexer.engine.DocType
+import zendesk.jindexer.engine.Meta
 import zendesk.jindexer.engine.storage.DocStorage
 import java.lang.IllegalArgumentException
 
@@ -27,8 +28,9 @@ class SearchController
         var docType: DocType? = null
         if (type != null) {
             try {
-                docType = DocType.valueOf(type)
+                docType = DocType.valueOf(type.toUpperCase())
             } catch (e: IllegalArgumentException) {
+                println("Illegal type $type")
                 return flow() {}
             }
         }
@@ -38,9 +40,15 @@ class SearchController
             docFlow = if (field == null)
                             docStorage.search(docType, term)
                         else
-                            docStorage.search(docType, term, field)
+                            docStorage.search(docType, field, term)
         }
         return docFlow
+    }
+
+    @GetMapping(path = ["/meta"],
+            produces = [MediaType.APPLICATION_STREAM_JSON_VALUE])
+    fun getMeta(): Meta {
+        return docStorage.getMeta()
     }
 
 }
