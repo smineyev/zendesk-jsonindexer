@@ -3,9 +3,8 @@
 To build and start the service, execute:
 >bash# ./runCLI
 
-It will start web service on port 8080 and expose shell interface.
- 
-*note that search is case insensitive 
+It will start web service on port 8080 and expose in-app shell interface. 
+If port 8080 is not available on host machine, app will fail to start. You can change port that app binds to by opening file **/src/resources/application.properties** and changing value of property **'server.port'**  
 
 ### HTTP end-points
 
@@ -14,6 +13,8 @@ Retrieve meta information about stored data, i.e. document types and correspondi
 
 Search documents
 >/search?type=<doc-type>&field=<field-name>&term=<string-to-search>
+
+*note that search is case insensitive
 
 Examples:
 > curl 'http://localhost:8080/search?term=oHiO'

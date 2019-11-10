@@ -4,62 +4,63 @@
 <blockquote>
 <p class="has-line-data" data-line-start="3" data-line-end="4">bash# ./runCLI</p>
 </blockquote>
-<p class="has-line-data" data-line-start="5" data-line-end="6">It will start web service on port 8080 and expose shell interface.</p>
-<p class="has-line-data" data-line-start="7" data-line-end="8">*note that search is case insensitive</p>
-<h3 class="code-line" data-line-start=9 data-line-end=10 ><a id="HTTP_endpoints_9"></a>HTTP end-points</h3>
-<p class="has-line-data" data-line-start="11" data-line-end="12">Retrieve meta information about stored data, i.e. document types and corresponding field names</p>
+<p class="has-line-data" data-line-start="5" data-line-end="7">It will start web service on port 8080 and expose in-app shell interface.<br>
+If port 8080 is not available on host machine, app will fail to start. You can change port that app binds to by opening file <strong>/src/resources/application.properties</strong> and changing value of property <strong>‘server.port’</strong></p>
+<h3 class="code-line" data-line-start=8 data-line-end=9 ><a id="HTTP_endpoints_8"></a>HTTP end-points</h3>
+<p class="has-line-data" data-line-start="10" data-line-end="11">Retrieve meta information about stored data, i.e. document types and corresponding field names</p>
 <blockquote>
-<p class="has-line-data" data-line-start="12" data-line-end="13">/meta</p>
+<p class="has-line-data" data-line-start="11" data-line-end="12">/meta</p>
 </blockquote>
-<p class="has-line-data" data-line-start="14" data-line-end="15">Search documents</p>
+<p class="has-line-data" data-line-start="13" data-line-end="14">Search documents</p>
 <blockquote>
-<p class="has-line-data" data-line-start="15" data-line-end="16">/search?type=&lt;doc-type&gt;&amp;field=&lt;field-name&gt;&amp;term=&lt;string-to-search&gt;</p>
+<p class="has-line-data" data-line-start="14" data-line-end="15">/search?type=&lt;doc-type&gt;&amp;field=&lt;field-name&gt;&amp;term=&lt;string-to-search&gt;</p>
 </blockquote>
-<p class="has-line-data" data-line-start="17" data-line-end="18">Examples:</p>
+<p class="has-line-data" data-line-start="16" data-line-end="17">*note that search is case insensitive</p>
+<p class="has-line-data" data-line-start="18" data-line-end="19">Examples:</p>
 <blockquote>
-<p class="has-line-data" data-line-start="18" data-line-end="19">curl ’<a href="http://localhost:8080/search?term=oHiO">http://localhost:8080/search?term=oHiO</a>’</p>
-</blockquote>
-<blockquote>
-<p class="has-line-data" data-line-start="20" data-line-end="21">curl ’<a href="http://localhost:8080/search?type=user&amp;field=signature&amp;term=Worry">http://localhost:8080/search?type=user&amp;field=signature&amp;term=Worry</a>’</p>
+<p class="has-line-data" data-line-start="19" data-line-end="20">curl ’<a href="http://localhost:8080/search?term=oHiO">http://localhost:8080/search?term=oHiO</a>’</p>
 </blockquote>
 <blockquote>
-<p class="has-line-data" data-line-start="22" data-line-end="23">curl ’<a href="http://localhost:8080/meta">http://localhost:8080/meta</a>’</p>
+<p class="has-line-data" data-line-start="21" data-line-end="22">curl ’<a href="http://localhost:8080/search?type=user&amp;field=signature&amp;term=Worry">http://localhost:8080/search?type=user&amp;field=signature&amp;term=Worry</a>’</p>
 </blockquote>
-<h3 class="code-line" data-line-start=25 data-line-end=26 ><a id="Shell_interface_25"></a>Shell interface</h3>
-<p class="has-line-data" data-line-start="26" data-line-end="27">List all commands:</p>
 <blockquote>
-<p class="has-line-data" data-line-start="27" data-line-end="28">cmd&gt;&gt;&gt; ?list</p>
+<p class="has-line-data" data-line-start="23" data-line-end="24">curl ’<a href="http://localhost:8080/meta">http://localhost:8080/meta</a>’</p>
 </blockquote>
-<p class="has-line-data" data-line-start="29" data-line-end="30">Help on a particular command</p>
+<h3 class="code-line" data-line-start=26 data-line-end=27 ><a id="Shell_interface_26"></a>Shell interface</h3>
+<p class="has-line-data" data-line-start="27" data-line-end="28">List all commands:</p>
 <blockquote>
-<p class="has-line-data" data-line-start="30" data-line-end="31">cmd&gt;&gt;&gt; ?help search</p>
+<p class="has-line-data" data-line-start="28" data-line-end="29">cmd&gt;&gt;&gt; ?list</p>
 </blockquote>
-<p class="has-line-data" data-line-start="32" data-line-end="33">Retrieve meta information about stored data</p>
+<p class="has-line-data" data-line-start="30" data-line-end="31">Help on a particular command</p>
 <blockquote>
-<p class="has-line-data" data-line-start="33" data-line-end="34">cmd&gt;&gt;&gt; meta</p>
+<p class="has-line-data" data-line-start="31" data-line-end="32">cmd&gt;&gt;&gt; ?help search</p>
 </blockquote>
-<p class="has-line-data" data-line-start="35" data-line-end="36">Search all documents that have word Ohio:</p>
+<p class="has-line-data" data-line-start="33" data-line-end="34">Retrieve meta information about stored data</p>
 <blockquote>
-<p class="has-line-data" data-line-start="36" data-line-end="37">cmd&gt;&gt;&gt; search Ohio</p>
+<p class="has-line-data" data-line-start="34" data-line-end="35">cmd&gt;&gt;&gt; meta</p>
 </blockquote>
-<p class="has-line-data" data-line-start="38" data-line-end="39">Search tickets with empty description:</p>
+<p class="has-line-data" data-line-start="36" data-line-end="37">Search all documents that have word Ohio:</p>
 <blockquote>
-<p class="has-line-data" data-line-start="39" data-line-end="40">cmd&gt;&gt;&gt; search ticket description ‘’</p>
+<p class="has-line-data" data-line-start="37" data-line-end="38">cmd&gt;&gt;&gt; search Ohio</p>
 </blockquote>
-<h3 class="code-line" data-line-start=41 data-line-end=42 ><a id="Docker_41"></a>Docker</h3>
-<p class="has-line-data" data-line-start="42" data-line-end="44">If runCLI build fails due to issues with local environment, there docker image available at smineyev/jsonsearch.<br>
+<p class="has-line-data" data-line-start="39" data-line-end="40">Search tickets with empty description:</p>
+<blockquote>
+<p class="has-line-data" data-line-start="40" data-line-end="41">cmd&gt;&gt;&gt; search ticket description ‘’</p>
+</blockquote>
+<h3 class="code-line" data-line-start=42 data-line-end=43 ><a id="Docker_42"></a>Docker</h3>
+<p class="has-line-data" data-line-start="43" data-line-end="45">If runCLI build fails due to issues with local environment, there docker image available at smineyev/jsonsearch.<br>
 To use it, execute:</p>
 <blockquote>
-<p class="has-line-data" data-line-start="44" data-line-end="45">bash# sudo docker run -p 8080:8080 smineyev/jsonsearch:v2</p>
+<p class="has-line-data" data-line-start="45" data-line-end="46">bash# sudo docker run -p 8080:8080 smineyev/jsonsearch:v2</p>
 </blockquote>
-<p class="has-line-data" data-line-start="46" data-line-end="47">*note that in-app shell interface won’t be available in this scenario</p>
-<h3 class="code-line" data-line-start=49 data-line-end=50 ><a id="Reference_Documentation_49"></a>Reference Documentation</h3>
-<p class="has-line-data" data-line-start="50" data-line-end="51">These might help to better understand tools and concepts that were used in this application</p>
+<p class="has-line-data" data-line-start="47" data-line-end="48">*note that in-app shell interface won’t be available in this scenario</p>
+<h3 class="code-line" data-line-start=50 data-line-end=51 ><a id="Reference_Documentation_50"></a>Reference Documentation</h3>
+<p class="has-line-data" data-line-start="51" data-line-end="52">These might help to better understand tools and concepts that were used in this application</p>
 <ul>
-<li class="has-line-data" data-line-start="52" data-line-end="53"><a href="https://docs.docker.com/">Docker documentation</a></li>
-<li class="has-line-data" data-line-start="53" data-line-end="54"><a href="https://docs.gradle.org">Gradle documentation</a></li>
-<li class="has-line-data" data-line-start="54" data-line-end="55"><a href="https://docs.spring.io/spring-boot/docs/2.2.1.RELEASE/gradle-plugin/reference/html/">Spring Boot Gradle Plugin Reference Guide</a></li>
-<li class="has-line-data" data-line-start="55" data-line-end="57"><a href="https://docs.spring.io/spring/docs/5.2.1.RELEASE/spring-framework-reference/languages.html#coroutines">Coroutines section of the Spring Framework</a></li>
+<li class="has-line-data" data-line-start="53" data-line-end="54"><a href="https://docs.docker.com/">Docker documentation</a></li>
+<li class="has-line-data" data-line-start="54" data-line-end="55"><a href="https://docs.gradle.org">Gradle documentation</a></li>
+<li class="has-line-data" data-line-start="55" data-line-end="56"><a href="https://docs.spring.io/spring-boot/docs/2.2.1.RELEASE/gradle-plugin/reference/html/">Spring Boot Gradle Plugin Reference Guide</a></li>
+<li class="has-line-data" data-line-start="56" data-line-end="58"><a href="https://docs.spring.io/spring/docs/5.2.1.RELEASE/spring-framework-reference/languages.html#coroutines">Coroutines section of the Spring Framework</a></li>
 </ul>
 
 </body></html>
