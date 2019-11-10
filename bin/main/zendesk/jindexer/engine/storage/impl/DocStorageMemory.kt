@@ -46,7 +46,7 @@ class DocStorageMemory
     }
 
     override fun search(term: String): Flow<Doc> {
-        return search(null as DocType?, term)
+        return search(null as DocType, term)
     }
 
     override suspend fun save(docs: Flow<Doc>)  {

@@ -31,7 +31,7 @@ class JsonIndexerCLI(
         try {
             docType = DocType.valueOf(docTypeStr.toUpperCase())
         } catch (e: IllegalArgumentException) {
-            println("Unknown document type: $docTypeStr")
+            println("Unknown document type: "+docTypeStr)
             println("Supported document types: "
                     + DocType.values()
                         .map { it.name }
@@ -48,14 +48,8 @@ class JsonIndexerCLI(
     }
 
     @Command
-    fun meta(): List<String> {
+    fun fields(): List<String> {
         return listOf()
-    }
-
-    @Command
-    fun exit() {
-        println("Bye.")
-        System.exit(0)
     }
 
     override fun run(vararg args: String?) {
